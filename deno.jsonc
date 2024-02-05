@@ -1,0 +1,13 @@
+{
+  "imports": {
+    "std/assert": "https://deno.land/std@0.214.0/assert/mod.ts"
+  },
+  "fmt": {
+    "singleQuote": true
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
+  }
+}

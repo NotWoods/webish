@@ -3,7 +3,10 @@
  * @param oldSet The previous data
  * @param newSet The new data
  */
-export function findChangeSet<T>(oldSet: ReadonlySet<T>, newSet: ReadonlySet<T>) {
+export function findChangeSet<T>(
+  oldSet: ReadonlySet<T>,
+  newSet: ReadonlySet<T>,
+) {
   const removed = Array.from(oldSet).filter((key) => !newSet.has(key));
   const added: T[] = [];
   const same: T[] = [];
@@ -19,6 +22,6 @@ export function findChangeSet<T>(oldSet: ReadonlySet<T>, newSet: ReadonlySet<T>)
   return {
     added,
     removed,
-    same
+    same,
   };
 }

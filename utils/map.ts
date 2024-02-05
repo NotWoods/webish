@@ -5,28 +5,30 @@ type MaybePromise<T> = T | PromiseLike<T>;
  */
 export function transformMap<Key, Value, Result>(
   map: ReadonlyMap<Key, Value>,
-  transform: (value: Value, key: Key) => Result
+  transform: (value: Value, key: Key) => Result,
 ): Map<Key, Result> {
   return new Map(
     Array.from(map.entries(), ([key, value]) => {
       return [key, transform(value, key)] as const;
-    })
+    }),
   );
 }
 
 export function filterMap<Key, Value, Result extends Value>(
   map: ReadonlyMap<Key, Value>,
-  predicate: (value: Value, key: Key) => value is Result
+  predicate: (value: Value, key: Key) => value is Result,
 ): Map<Key, Result>;
 export function filterMap<Key, Value>(
   map: ReadonlyMap<Key, Value>,
-  predicate: (value: Value, key: Key) => boolean
+  predicate: (value: Value, key: Key) => boolean,
 ): Map<Key, Value>;
 export function filterMap<Key, Value>(
   map: ReadonlyMap<Key, Value>,
-  predicate: (value: Value, key: Key) => boolean
+  predicate: (value: Value, key: Key) => boolean,
 ): Map<Key, Value> {
-  return new Map(Array.from(map.entries()).filter(([key, value]) => predicate(value, key)));
+  return new Map(
+    Array.from(map.entries()).filter(([key, value]) => predicate(value, key)),
+  );
 }
 
 /**
@@ -34,14 +36,14 @@ export function filterMap<Key, Value>(
  */
 export async function transformMapAsync<Key, Value, Result>(
   map: ReadonlyMap<Key, Value>,
-  transform: (value: Value, key: Key) => MaybePromise<Result>
+  transform: (value: Value, key: Key) => MaybePromise<Result>,
 ): Promise<Map<Key, Result>> {
   return new Map(
     await Promise.all(
       Array.from(map.entries(), async ([key, value]) => {
         return [key, await transform(value, key)] as const;
-      })
-    )
+      }),
+    ),
   );
 }
 
@@ -51,10 +53,10 @@ export async function transformMapAsync<Key, Value, Result>(
  */
 export async function allSettledMap<Key, Value, Result>(
   map: ReadonlyMap<Key, Value>,
-  transform: (value: Value, key: Key) => MaybePromise<Result>
+  transform: (value: Value, key: Key) => MaybePromise<Result>,
 ): Promise<Map<Key, PromiseSettledResult<Result>>> {
   const newValues = await Promise.allSettled(
-    Array.from(map.entries(), ([key, value]) => transform(value, key))
+    Array.from(map.entries(), ([key, value]) => transform(value, key)),
   );
   const result = new Map<Key, PromiseSettledResult<Result>>();
   for (const [i, key] of Array.from(map.keys()).entries()) {

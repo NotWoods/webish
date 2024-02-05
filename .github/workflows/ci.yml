@@ -11,7 +11,7 @@ jobs:
         os: [macOS-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Deno
         uses: denoland/setup-deno@v1
 
@@ -19,7 +19,7 @@ jobs:
         run: deno fmt --check
 
       - name: Check
-        run: deno check --remote mod.ts
+        run: deno check --remote utils/mod.ts
 
       - name: Lint
         run: deno lint
