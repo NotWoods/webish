@@ -13,7 +13,7 @@ await build({
   package: {
     // package.json properties
     name: '@notwoods/webish',
-    version: Deno.args[0]?.replace(/^v/, ""),
+    version: Deno.args[0]?.replace(/^v/, ''),
     description:
       'Dumping group of useful JS concepts and data structures for my projects',
     license: 'MIT',
