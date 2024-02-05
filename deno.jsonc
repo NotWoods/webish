@@ -3,9 +3,11 @@
     "std/assert": "https://deno.land/std@0.214.0/assert/mod.ts"
   },
   "fmt": {
+    "exclude": ["npm/"],
     "singleQuote": true
   },
   "lint": {
+    "exclude": ["npm/"],
     "rules": {
       "exclude": ["no-explicit-any"]
     }

@@ -1,4 +1,4 @@
-import { build, emptyDir } from "https://deno.land/x/dnt@0.40.0/mod.ts";
+import { build, emptyDir } from 'https://deno.land/x/dnt@0.40.0/mod.ts';
 
 await emptyDir('./npm');
 
@@ -14,8 +14,10 @@ await build({
     // package.json properties
     name: 'tigertools',
     version: Deno.args[0],
-    description: 'Dumping group of useful JS concepts and data structures for my projects',
+    description:
+      'Dumping group of useful JS concepts and data structures for my projects',
     license: 'MIT',
+    sideEffects: false,
     repository: {
       type: 'git',
       url: 'git+https://github.com/NotWoods/tigertools.git',
@@ -25,8 +27,8 @@ await build({
     },
     author: {
       name: 'Tiger Oakes',
-      email: 'contact@tigeroakes.com'
-    }
+      email: 'contact@tigeroakes.com',
+    },
   },
   async postBuild() {
     // steps to run after building and before running the tests
