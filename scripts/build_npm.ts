@@ -1,19 +1,20 @@
-import { build, emptyDir } from 'https://deno.land/x/dnt/mod.ts';
+import { build, emptyDir } from "https://deno.land/x/dnt@0.40.0/mod.ts";
 
 await emptyDir('./npm');
 
 await build({
   entryPoints: ['./src/mod.ts'],
-  outDir: '../npm',
+  outDir: './npm',
+  importMap: './deno.jsonc',
   shims: {
     // see JS docs for overview and more options
-    deno: true,
+    deno: 'dev',
   },
   package: {
     // package.json properties
     name: 'tigertools',
     version: Deno.args[0],
-    description: 'Your package.',
+    description: 'Dumping group of useful JS concepts and data structures for my projects',
     license: 'MIT',
     repository: {
       type: 'git',
@@ -22,10 +23,16 @@ await build({
     bugs: {
       url: 'https://github.com/NotWoods/tigertools/issues',
     },
+    author: {
+      name: 'Tiger Oakes',
+      email: 'contact@tigeroakes.com'
+    }
   },
-  postBuild() {
+  async postBuild() {
     // steps to run after building and before running the tests
-    Deno.copyFileSync('LICENSE', 'npm/LICENSE');
-    Deno.copyFileSync('README.md', 'npm/README.md');
+    await Promise.all([
+      Deno.copyFile('LICENSE', 'npm/LICENSE'),
+      Deno.copyFile('README.md', 'npm/README.md'),
+    ]);
   },
 });

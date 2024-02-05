@@ -9,5 +9,8 @@
     "rules": {
       "exclude": ["no-explicit-any"]
     }
+  },
+  "tasks": {
+    "node": "deno run --allow-env --allow-read --allow-write=./npm --allow-net=deno.land --allow-run scripts/build_npm.ts"
   }
 }
