@@ -16,6 +16,6 @@ export function randomInteger(min: number, max: number) {
  * @template T - The type of the array items.
  * @param items - The array from which to pick a random item.
  */
-export function randomItem<T>(items: readonly T[]): T {
+export function randomItem<T>(items: ArrayLike<T>): T {
   return items[randomInteger(0, items.length - 1)];
 }
