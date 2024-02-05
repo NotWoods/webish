@@ -12,18 +12,19 @@ await build({
   },
   package: {
     // package.json properties
-    name: 'tigertools',
-    version: Deno.args[0],
+    name: '@notwoods/webish',
+    version: Deno.args[0]?.replace(/^v/, ""),
     description:
       'Dumping group of useful JS concepts and data structures for my projects',
     license: 'MIT',
     sideEffects: false,
+    private: false,
     repository: {
       type: 'git',
-      url: 'git+https://github.com/NotWoods/tigertools.git',
+      url: 'git+https://github.com/NotWoods/webish.git',
     },
     bugs: {
-      url: 'https://github.com/NotWoods/tigertools/issues',
+      url: 'https://github.com/NotWoods/webish/issues',
     },
     author: {
       name: 'Tiger Oakes',
