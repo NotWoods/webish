@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.214.0/assert/mod.ts";
-import { transformMap, transformMapAsync } from '../map.ts';
+import { transformMap, transformMapAsync } from './map.ts';
 
 Deno.test('transformMap transforms values', () => {
 	const input = new Map(
