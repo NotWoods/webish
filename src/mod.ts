@@ -1,4 +1,4 @@
-export { count } from './array.ts';
+export { asArray, count, sum } from './array.ts';
 export {
   allSettledMap,
   filterMap,
