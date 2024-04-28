@@ -1,5 +1,7 @@
-import type { PromiseWorkerIncomingMessage } from './protocol.ts';
-import { PromiseWorkerOutgoingMessage } from './protocol.ts';
+import type {
+  PromiseWorkerIncomingMessage,
+  PromiseWorkerOutgoingMessage,
+} from './protocol.ts';
 
 let messageIds = 0;
 
@@ -15,7 +17,7 @@ function isPromiseWorkerOutgoingMessage(
     typeof message[0] === 'number';
 }
 
-type PromisableWorker = Pick<Worker | MessagePort, 'onmessage' | 'postMessage'>;
+type PromisableWorker = Worker | MessagePort;
 
 /**
  * Make it easier to communicate with Web Workers, using Promises.
@@ -30,8 +32,8 @@ export class PromiseWorker {
 
   constructor(worker: PromisableWorker) {
     this.#worker = worker;
-    this.#worker.onmessage = (event) => {
-      const message: unknown = event.data;
+    this.#worker.addEventListener('message', (event) => {
+      const message: unknown = (event as MessageEvent).data;
       if (!isPromiseWorkerOutgoingMessage(message)) {
         // Ignore, not a message we care about.
         return;
@@ -50,7 +52,10 @@ export class PromiseWorker {
       } else {
         resolvers.resolve(data);
       }
-    };
+    });
+
+    // If this is a MessagePort, start it.
+    (this.#worker as Partial<MessagePort>).start?.();
   }
 
   postMessage(

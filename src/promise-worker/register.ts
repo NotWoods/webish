@@ -5,6 +5,11 @@ import type {
   PromiseWorkerOutgoingMessage,
 } from './protocol.ts';
 
+const TRANSFERRABLE = Symbol('Transferrable');
+type TransferrableResult = {
+  [TRANSFERRABLE]: [unknown, StructuredSerializeOptions];
+};
+
 function isPromiseWorkerIncomingMessage(
   message: unknown,
 ): message is PromiseWorkerIncomingMessage {
@@ -12,10 +17,11 @@ function isPromiseWorkerIncomingMessage(
     typeof message[0] === 'number';
 }
 
-type PromisableWorkerScope = Pick<
-  DedicatedWorkerGlobalScope | MessagePort,
-  'onmessage' | 'postMessage'
->;
+function isTransferrableResult(
+  value: unknown,
+): value is TransferrableResult {
+  return typeof value === 'object' && value !== null && TRANSFERRABLE in value;
+}
 
 /**
  * Wraps an async function to reply to incoming messages from the main thread.
@@ -25,10 +31,10 @@ type PromisableWorkerScope = Pick<
  */
 export function registerPromiseWorker(
   callback: (message: unknown) => Promise<unknown>,
-  workerScope: PromisableWorkerScope = self,
+  workerScope: DedicatedWorkerGlobalScope | MessagePort = self,
 ) {
-  workerScope.onmessage = function onIncomingMessage(event) {
-    const message: unknown = event.data;
+  workerScope.addEventListener('message', function onIncomingMessage(event) {
+    const message: unknown = (event as MessageEvent).data;
     if (!isPromiseWorkerIncomingMessage(message)) {
       // Ignore, not a message we care about.
       return;
@@ -39,8 +45,17 @@ export function registerPromiseWorker(
     // by ensuring the callback is wrapped in a Promise.then.
     Promise.resolve(input).then(callback).then(
       (output) => {
+        let message: unknown;
+        let options: StructuredSerializeOptions | undefined;
+        if (isTransferrableResult(output)) {
+          message = output[TRANSFERRABLE][0];
+          options = output[TRANSFERRABLE][1];
+        } else {
+          message = output;
+        }
         workerScope.postMessage(
-          [messageId, null, output] satisfies PromiseWorkerOutgoingMessage,
+          [messageId, null, message] satisfies PromiseWorkerOutgoingMessage,
+          options,
         );
       },
       (error) => {
@@ -49,5 +64,15 @@ export function registerPromiseWorker(
         );
       },
     );
-  };
+  });
+
+  // If this is a MessagePort, start it.
+  (workerScope as Partial<MessagePort>).start?.();
+}
+
+export function transferable(
+  value: unknown,
+  options: StructuredSerializeOptions,
+): TransferrableResult {
+  return { [TRANSFERRABLE]: [value, options] };
 }
