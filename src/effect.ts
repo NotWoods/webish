@@ -8,17 +8,23 @@
  * }))
  *
  * @example
+ * // Svelte Store
+ * const store = readable(undefined, withAbortSignal((signal, set, update) => {
+ *   element.addEventListener('click', () => update(n => n + 1), { signal });
+ * }))
+ *
+ * @example
  * // React & Preact
  * useEffect(withAbortSignal((signal) => {
  *   elementRef.current.addEventListener('click', () => {}, { signal });
  * }), [elementRef])
  */
-export function withAbortSignal(
-  callback: (signal: AbortSignal) => void | (() => void),
-): () => () => void {
-  return function effectWithSignal() {
+export function withAbortSignal<Args extends unknown[] = []>(
+  callback: (signal: AbortSignal, ...args: Args) => void | (() => void),
+) {
+  return function effectWithSignal(...args: Args): () => void {
     const controller = new AbortController();
-    const cleanup = callback(controller.signal);
+    const cleanup = callback(controller.signal, ...args);
     return () => {
       controller.abort();
       cleanup?.();
