@@ -1,4 +1,5 @@
 export { asArray, count, sum } from './array.ts';
+export { withAbortSignal } from './effect.ts';
 export {
   allSettledMap,
   filterMap,

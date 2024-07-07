@@ -5,6 +5,8 @@ import type {
   PromiseWorkerOutgoingMessage,
 } from './protocol.ts';
 
+declare const self: DedicatedWorkerGlobalScope;
+
 const TRANSFERRABLE = Symbol('Transferrable');
 type TransferrableResult = {
   [TRANSFERRABLE]: [unknown, StructuredSerializeOptions];
