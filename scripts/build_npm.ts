@@ -1,6 +1,12 @@
-import { build, emptyDir } from 'https://deno.land/x/dnt@0.40.0/mod.ts';
+import { build, emptyDir } from 'jsr:@deno/dnt@^0.41.2';
+import { parse } from 'jsr:@std/jsonc@^0.224.0';
 
-await emptyDir('./npm');
+const [denoJson] = await Promise.all([
+  Deno.readTextFile('./deno.jsonc'),
+  emptyDir('./npm'),
+]);
+
+const { name, version } = parse(denoJson) as { name: string; version: string };
 
 await build({
   entryPoints: ['./src/mod.ts'],
@@ -12,8 +18,8 @@ await build({
   },
   package: {
     // package.json properties
-    name: '@notwoods/webish',
-    version: Deno.args[0]?.replace(/^v/, ''),
+    name,
+    version,
     description:
       'Dumping group of useful JS concepts and data structures for my projects',
     license: 'MIT',

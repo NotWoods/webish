@@ -1,4 +1,4 @@
-import { assertEquals } from 'std/assert';
+import { assertEquals } from '@std/assert';
 import { transformMap, transformMapAsync } from './map.ts';
 
 Deno.test('transformMap transforms values', () => {

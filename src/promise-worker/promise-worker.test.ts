@@ -1,5 +1,5 @@
 // deno-lint-ignore-file require-await
-import { assertEquals, assertInstanceOf, assertRejects } from 'std/assert';
+import { assertEquals, assertInstanceOf, assertRejects } from '@std/assert';
 import { PromiseWorker } from './mod.ts';
 import { registerPromiseWorker, transferable } from './register.ts';
 
