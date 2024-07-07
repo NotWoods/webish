@@ -47,7 +47,7 @@ Deno.test('withAbortSignal works with readable store', () => {
   );
 
   let value: number | undefined;
-  let unsubscribe = store.subscribe((v) => {
+  const unsubscribe = store.subscribe((v) => {
     value = v;
   });
 
