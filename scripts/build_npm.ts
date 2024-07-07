@@ -6,7 +6,11 @@ const [denoJson] = await Promise.all([
   emptyDir('./npm'),
 ]);
 
-const { name, version, exports } = parse(denoJson) as { name: string; version: string, exports: unknown };
+const { name, version, exports } = parse(denoJson) as {
+  name: string;
+  version: string;
+  exports: unknown;
+};
 if (typeof exports !== 'string') {
   throw new Error('Expected exports field in deno.jsonc to be a string');
 }

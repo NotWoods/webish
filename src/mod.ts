@@ -9,4 +9,4 @@ export {
 export { memoize } from './memo.ts';
 export { pick } from './object.ts';
 export { randomInteger, randomItem } from './random.ts';
-export { findChangeSet, type ChangeSet } from './set.ts';
+export { type ChangeSet, findChangeSet } from './set.ts';

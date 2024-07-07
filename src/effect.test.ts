@@ -35,15 +35,18 @@ Deno.test('withAbortSignal works with readable store', () => {
   let signal: AbortSignal | undefined;
   let setter: (value: number) => void;
   let cleanedUp = false;
-  const store = readable<number>(0, withAbortSignal((s, set) => {
-    signal = s;
-    setter = set;
-    return () => {
-      cleanedUp = true;
-    };
-  }))
+  const store = readable<number>(
+    0,
+    withAbortSignal((s, set) => {
+      signal = s;
+      setter = set;
+      return () => {
+        cleanedUp = true;
+      };
+    }),
+  );
 
-  let value: number | undefined
+  let value: number | undefined;
   let unsubscribe = store.subscribe((v) => {
     value = v;
   });
