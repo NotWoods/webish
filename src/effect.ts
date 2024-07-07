@@ -21,8 +21,8 @@
  */
 export function withAbortSignal<Args extends unknown[] = []>(
   callback: (signal: AbortSignal, ...args: Args) => void | (() => void),
-) {
-  return function effectWithSignal(...args: Args): () => void {
+): (...args: Args) => () => void {
+  return function effectWithSignal(...args): () => void {
     const controller = new AbortController();
     const cleanup = callback(controller.signal, ...args);
     return () => {

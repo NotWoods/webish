@@ -11,7 +11,7 @@ interface MemoizeCacheEntry<Func extends (...args: unknown[]) => unknown> {
 export function memoize<Func extends (...args: any[]) => unknown>(
   fn: Func,
   cacheSize = 1,
-) {
+): (...args: Parameters<Func>) => ReturnType<Func> {
   const cache: MemoizeCacheEntry<Func>[] = [];
 
   return function (...args: Parameters<Func>): ReturnType<Func> {

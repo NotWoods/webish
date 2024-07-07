@@ -14,10 +14,16 @@ export function transformMap<Key, Value, Result>(
   );
 }
 
+/**
+ * Filter entries in a map using a predicate.
+ */
 export function filterMap<Key, Value, Result extends Value>(
   map: ReadonlyMap<Key, Value>,
   predicate: (value: Value, key: Key) => value is Result,
 ): Map<Key, Result>;
+/**
+ * Filter entries in a map.
+ */
 export function filterMap<Key, Value>(
   map: ReadonlyMap<Key, Value>,
   predicate: (value: Value, key: Key) => boolean,

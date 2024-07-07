@@ -7,7 +7,7 @@
  * randomInteger(0, 2); // 0, 1, or 2
  * randomInteger(3, 5); // 3, 4, or 5
  */
-export function randomInteger(min: number, max: number) {
+export function randomInteger(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
