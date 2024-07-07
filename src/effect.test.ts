@@ -5,11 +5,11 @@ import { useEffect } from 'npm:preact@^10.0.0/hooks';
 import { readable } from 'npm:svelte@^4.0.0/store';
 import { withAbortSignal } from './effect.ts';
 
-const document = new DOMParser().parseFromString('', 'text/html');
-// @ts-ignore mocking for test
-globalThis.document = document;
-
 Deno.test('withAbortSignal works with useEffect', () => {
+  const document = new DOMParser().parseFromString('', 'text/html');
+  // @ts-ignore mocking for test
+  globalThis.document = document;
+
   let signal: AbortSignal | undefined;
   let cleanedUp = false;
   const { unmount } = renderHook(() =>

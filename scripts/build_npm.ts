@@ -15,6 +15,8 @@ if (typeof exports !== 'string') {
   throw new Error('Expected exports field in deno.jsonc to be a string');
 }
 
+const runTestsAfterBuild = Deno.args.includes('--test');
+
 await build({
   entryPoints: [exports],
   outDir: './npm',
@@ -44,6 +46,8 @@ await build({
       email: 'contact@tigeroakes.com',
     },
   },
+  test: runTestsAfterBuild,
+  scriptModule: runTestsAfterBuild ? false : 'cjs',
   async postBuild() {
     // steps to run after building and before running the tests
     await Promise.all([

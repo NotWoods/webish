@@ -884,6 +884,7 @@
   "remote": {},
   "workspace": {
     "dependencies": [
+      "jsr:@b-fuze/deno-dom@^0.1.47",
       "jsr:@std/assert@^0.226.0"
     ]
   }
