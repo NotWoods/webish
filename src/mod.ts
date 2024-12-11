@@ -3,6 +3,7 @@ export { withAbortSignal } from './effect.ts';
 export {
   allSettledMap,
   filterMap,
+  getOrDefault,
   transformMap,
   transformMapAsync,
 } from './map.ts';

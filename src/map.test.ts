@@ -1,5 +1,5 @@
 import { assertEquals } from '@std/assert';
-import { transformMap, transformMapAsync } from './map.ts';
+import { getOrDefault, transformMap, transformMapAsync } from './map.ts';
 
 Deno.test('transformMap transforms values', () => {
   const input = new Map(
@@ -30,5 +30,24 @@ Deno.test('transformMapAsync transforms values', async () => {
   assertEquals(Object.fromEntries(output), {
     foo: 'BAR',
     bar: 'FOO',
+  });
+});
+
+Deno.test('getOrDefault gets and inserts values', () => {
+  const input = new Map<number, string[]>().set(1, ['foo']);
+
+  const one = getOrDefault(input, 1, []);
+  const two = getOrDefault(input, 2, []);
+  const three = getOrDefault(input, 3, []);
+  two.push('bar');
+
+  assertEquals(one, ['foo']);
+  assertEquals(two, ['bar']);
+  assertEquals(three, []);
+
+  assertEquals(Object.fromEntries(input), {
+    1: ['foo'],
+    2: ['bar'],
+    3: [],
   });
 });

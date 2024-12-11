@@ -71,3 +71,17 @@ export async function allSettledMap<Key, Value, Result>(
   }
   return result;
 }
+
+/**
+ * Get the value for a key in a map, or initialize it to a default value if it doesn't exist.
+ */
+export function getOrDefault<Key, Value>(
+  map: Map<Key, Value>,
+  key: Key,
+  defaultValue: Value,
+): Value {
+  if (!map.has(key)) {
+    map.set(key, defaultValue);
+  }
+  return map.get(key)!;
+}
